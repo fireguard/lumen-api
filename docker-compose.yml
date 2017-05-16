@@ -1,0 +1,34 @@
+version: "2"
+
+services:
+  web:
+    image: fireguard/php-nginx
+    ports:
+      - "80:80"
+    environment:
+      GIT_EMAIL: ronaldo@fireguard.com.br
+      GIT_USER_NAME: Ronaldo Meneguite
+    volumes:
+      - ./:/project
+
+    links:
+      - db
+      - redis
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - ./storage/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: project
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
