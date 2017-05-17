@@ -8,13 +8,16 @@ $app->get('/', function () use ($app) {
 
 $app->post('/auth/login', 'AuthController@authenticate');
 
-$app->group(['middleware' => 'auth:api'], function(Application $app) {
-    $app->get('/auth/token/refresh', 'AuthController@refreshToken');
-    $app->get('/auth/token/invalidate', 'AuthController@invalidateToken');
+$app->group(['middleware' => 'auth:api', 'prefix' => 'auth'], function(Application $app) {
 
-    $app->get('/test', function() {
-        return response()->json([
-            'message' => 'Hello World!',
-        ]);
-    });
+    $app->get('/token/refresh', 'AuthController@refreshToken');
+    $app->get('/token/invalidate', 'AuthController@invalidateToken');
+});
+
+
+$app->group(['middleware' => 'auth:api', 'prefix' => 'api'], function(Application $app) {
+
+    $app->get('/users', 'UserController@index');
+    $app->get('/user/profile', 'UserController@profile');
+    $app->get('/user/{id}', 'UserController@show');
 });
