@@ -14,7 +14,8 @@ class UserTransformer extends TransformerAbstract
             'id'        => (int) $user->id,
             'name'      => $user->name,
             'email'     => $user->email,
-            'function'  => $user->function
+            'function'  => $user->function,
+            'image'     => get_uri($user->image),
         ];
     }
 }

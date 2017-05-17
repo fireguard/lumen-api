@@ -88,6 +88,7 @@ return [
     'uploaded'             => 'Falha no Upload do arquivo :attribute.',
     'url'                  => 'O formato da URL informada para o campo :attribute é inválido.',
 
+    'password'             => 'A senha deve conter pelo menos seis caracteres.', //TODO
     'valid_image'          => 'A imagem enviada possui formato inválido.',
 
     /*

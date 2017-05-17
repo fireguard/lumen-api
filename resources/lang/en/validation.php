@@ -86,6 +86,7 @@ return [
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
 
+    'password'             => 'Passwords must be at least six characters.', //TODO
     'valid_image'          => 'The submitted image has an invalid format.',
 
     /*

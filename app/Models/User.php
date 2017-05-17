@@ -37,6 +37,8 @@ class User extends AbstractModel implements AuthenticatableContract, Authorizabl
 
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'user_id' => $this->id
+        ];
     }
 }
