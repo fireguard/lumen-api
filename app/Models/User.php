@@ -18,7 +18,7 @@ class User extends AbstractModel implements AuthenticatableContract, Authorizabl
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'function'
+        'name', 'email', 'function'
     ];
 
     /**

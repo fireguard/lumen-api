@@ -12,7 +12,7 @@ class UserRequest extends BaseRequest
     {
         $rules = [
             'name' => 'required|max:255',
-            'email' => 'bail|required|max:255|email', // |unique:users
+            'email' => 'bail|required|max:255|email|unique:users',
             'password' => 'required|password',
             'function' => 'max:255',
             'image' => 'valid_image'
@@ -23,10 +23,7 @@ class UserRequest extends BaseRequest
             case 'PUT':
             case 'PATCH':
             {
-                if (!empty($this->route('id'))) {
-                    $idEntity = $this->route('id');
-                    $rules['username'] = 'bail|required|max:255|email|unique:users,email,'.$idEntity;
-                }
+                $rules['email'] = 'bail|required|max:255|email|unique:users,email,'.route_parameter('id', '');
                 unset($rules['password']);
                 return $rules;
             }

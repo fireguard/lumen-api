@@ -28,15 +28,37 @@ class UserController extends Controller
         return $this->responseSuccess(null, 200, ['data' => $auth->user()], $transformer);
     }
 
-    public function store(UserService $service, UserRequest $request, UserTransformer $transformer)
+    public function store(UserService $service, UserRequest $request)
     {
         $user = $service->create($request);
         if (!is_null($user)) {
             return $this->responseSuccess('Usuário cadastrado com sucesso', 200, [
-                'data' => $user
-            ], $transformer);
+                'data' => [ 'id' => $user->id ]
+            ]);
         }
         return $this->responseError('Erro ao salvar o usuário', 500);
+    }
+
+    public function update(UserService $service, UserRequest $request, $id)
+    {
+
+        $user = User::findOrFail($id);
+        if (!is_null($service->update($request, $user))) {
+            return $this->responseSuccess('Usuário atualizado com sucesso', 200, [
+                'data' => [ 'id' => $user->id ]
+            ]);
+        }
+        return $this->responseError('Erro ao salvar o usuário', 500);
+    }
+
+    public function delete(UserService $service, JWTAuth $auth, $id)
+    {
+        if ($service->delete($auth, $id)) {
+            return $this->responseSuccess('Usuário excluído com sucesso', 200, [
+                'data' => [ 'id' => $id ]
+            ]);
+        }
+        return $this->responseError('Erro ao excluir o usuário solicitado', 500);
     }
 
 }

@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Tymon\JWTAuth\JWTAuth;
 
 class UserService
 {
@@ -28,6 +29,26 @@ class UserService
             return $user;
         }
         return null;
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $user->fill($request->all());
+        $user->image = $this->getImageForUser($request, $user);
+        if ( $user->save() ) {
+            $this->removeFiles($this->filesForRemove);
+            return $user;
+        }
+        return null;
+    }
+
+    public function delete(JWTAuth $auth, $id)
+    {
+        if ($auth->user()->getJWTIdentifier() == $id) {
+            return response()->json(['status' => 'error', 'message' => 'Não é possível remover o próprio usuário'], 402);
+        }
+
+        return User::destroy($id);
     }
 
     protected function getImageForUser(Request $request, $user)

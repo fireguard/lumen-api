@@ -15,10 +15,12 @@ $app->group(['middleware' => 'auth:api', 'prefix' => 'auth'], function(Applicati
 });
 
 
-$app->group(['middleware' => ['auth:api', 'throttle:30,1'], 'prefix' => 'api'], function(Application $app) {
+$app->group(['middleware' => ['auth:api', 'throttle:30000000,1'], 'prefix' => 'api'], function(Application $app) {
 
     $app->get('/users', 'UserController@index');
     $app->get('/user/profile', 'UserController@profile');
     $app->get('/user/{id}', 'UserController@show');
     $app->post('/user', 'UserController@store');
+    $app->put('/user/{id}', 'UserController@update');
+    $app->delete('/user/{id}', 'UserController@delete');
 });
