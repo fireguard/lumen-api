@@ -27,22 +27,20 @@ class Controller extends BaseController
 
     protected function createResponse($status, $message, $code = 500, $data = null, TransformerAbstract $transformer = null)
     {
-        if ($data instanceof LengthAwarePaginator && !is_null($transformer)) {
+        if ( isset($data['data']) && $data['data'] instanceof LengthAwarePaginator && !is_null($transformer)) {
 
-            $data =  $this->getDataForCollectionPaginator($data, $transformer);
+            $data =  $this->getDataForCollectionPaginator($data['data'], $transformer);
 
-        } else if ( $data instanceof AbstractModel && !is_null($transformer) ) {
+        } else if ( isset($data['data']) &&  $data['data'] instanceof AbstractModel && !is_null($transformer) ) {
 
-            $data =  $this->getDataForModel($data, $transformer);
+            $data =  $this->getDataForModel($data['data'], $transformer);
         }
 
-
-        return response()->json([
+        return response()->json(array_merge([
             'code' => $code,
             'status'  => $status,
             'message' => $message,
-            'data'    => $data
-        ], $code);
+        ], $data), $code);
     }
 
     protected function getDataForCollectionPaginator(LengthAwarePaginator $data, TransformerAbstract $transformer)
@@ -53,14 +51,14 @@ class Controller extends BaseController
         $paginatorAdapter = new IlluminatePaginatorAdapter($data);
         $resource->setPaginator($paginatorAdapter);
 
-        return $fractal->createData($resource)->toArray()['data'];
+        return $fractal->createData($resource)->toArray();
     }
 
     protected function getDataForModel(AbstractModel $model, TransformerAbstract $transformer)
     {
         $fractal = new Manager();
         $item = new Item($model, $transformer);
-        return $fractal->createData($item)->toArray()['data'];
+        return $fractal->createData($item)->toArray();
     }
 
 

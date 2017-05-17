@@ -39,7 +39,7 @@ class AuthController extends Controller
         if (!$token = $auth->attempt($credentials)) {
             throw new TokenInvalidException("As Credenciais passadas são inválidas", 404);
         }
-        return $this->responseSuccess("Sucesso na autenticação", 200, [ 'token' => $token ] );
+        return $this->responseSuccess("Sucesso na autenticação", 200, [ 'data' => ['token' => $token] ] );
     }
 
     /**
@@ -59,6 +59,6 @@ class AuthController extends Controller
     public function refreshToken(JWTAuth $auth)
     {
         $token = $auth->refresh($auth->getToken());
-        return $this->responseSuccess("Token renovado com sucesso", 200, [ 'token' => $token ] );
+        return $this->responseSuccess("Token renovado com sucesso", 200, [ 'data' => ['token' => $token] ]  );
     }
 }
