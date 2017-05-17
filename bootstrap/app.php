@@ -84,6 +84,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(App\Providers\FormRequestServiceProvider::class);
+$app->register(App\Providers\ValidatorServiceProvider::class);
 
 
 /*
@@ -97,7 +98,8 @@ $app->register(App\Providers\FormRequestServiceProvider::class);
 |
 */
 
-app('translator')->setLocale('pt-BR');
+$app['translator']->setLocale('pt-BR');
+$app['translator']->setFallback('en');
 
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../routes/web.php';

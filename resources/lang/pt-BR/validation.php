@@ -88,6 +88,8 @@ return [
     'uploaded'             => 'Falha no Upload do arquivo :attribute.',
     'url'                  => 'O formato da URL informada para o campo :attribute é inválido.',
 
+    'valid_image'          => 'A imagem enviada possui formato inválido.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -125,6 +127,7 @@ return [
         'date'                  => 'data',
         'day'                   => 'dia',
         'description'           => 'descrição',
+        'email'                 => 'e-mail',
         'excerpt'               => 'resumo',
         'first_name'            => 'primeiro nome',
         'gender'                => 'gênero',
