@@ -23,7 +23,10 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades(true, [
+    Illuminate\Support\Facades\Storage::class => 'Storage',
+    Intervention\Image\ImageManagerStatic::class => 'Image'
+]);
 
 $app->withEloquent();
 
@@ -47,6 +50,12 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+
+$app->singleton('filesystem', function ($app) {
+    return $app->loadComponent(
+        'filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem'
+    );
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +87,9 @@ $app->singleton(
 | totally optional, so you are not required to uncomment this line.
 |
 */
+
+
+//$app->register(Intervention\Image\ImageServiceProvider::class);
 
 // $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);

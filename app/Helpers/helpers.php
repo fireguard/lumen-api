@@ -28,3 +28,16 @@ if (! function_exists('__')) {
         return app('translator')->getFromJson($key, $replace, $locale);
     }
 }
+
+if (! function_exists('get_uri')) {
+    /**
+     * Assign high numeric IDs to a config item to force appending.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function get_uri($path)
+    {
+        return \Storage::url($path);
+    }
+}
