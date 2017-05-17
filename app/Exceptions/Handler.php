@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 
@@ -47,10 +48,24 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($e instanceof JWTException) {
-            return (new JWTExceptionHandler())->render($e);
-        }
+        if ($e instanceof JWTException) return (new JWTExceptionHandler())->render($e);
+        if ($e instanceof ModelNotFoundException) return (new ModelNotFoundHandler())->render($e);
 
-        return parent::render($request, $e);
+        $rendered = parent::render($request, $e);
+
+        $trace = (env('APP_DEBUG', false))
+            ? ['file' => $e->getFile(), 'line' => $e->getLine(), 'trace' => $e->getTrace()]
+            : [];
+
+        $message = !empty($e->getMessage())
+            ? $e->getMessage()
+            : ($e instanceof NotFoundHttpException ? __('errors.invalid_address') : '');
+
+        return response()->json([
+            'code'      => $rendered->getStatusCode(),
+            'status'    => 'error',
+            'message'   => $message,
+            'data'      => $trace
+        ], $rendered->getStatusCode() );
     }
 }

@@ -59,9 +59,9 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+ $app->middleware([
+//    App\Http\Middleware\AlwaysExpectsJson::class
+ ]);
 
  $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
@@ -94,6 +94,8 @@ $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 | can respond to, as well as the controllers that may handle them.
 |
 */
+
+app('translator')->setLocale('pt-BR');
 
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../routes/web.php';

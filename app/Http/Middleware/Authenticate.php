@@ -39,8 +39,10 @@ class Authenticate
             return response()->json([
                 'code' => 401,
                 'status'  => 'error',
-                'message' => 'Unauthorized',
-                'data'    => []
+                'message' => __('errors.unauthorized'),
+                'data'    => [
+                    'id' => 'Unauthorized'
+                ]
             ], 401);
         }
 

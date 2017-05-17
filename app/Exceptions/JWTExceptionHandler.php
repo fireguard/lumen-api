@@ -45,13 +45,12 @@ class JWTExceptionHandler
             return $this->tokenInvalid($e);
         }
 
-        return response([
+        return response()->json([
             'code'      => $e->getCode(),
             'status'    => 'error',
-            'message'   => 'Não foi possível concluir a autenticação',
+            'message'   => __('errors.jwt.invalid_auth'),
             'data' => [
                 'id'        => 'AuthException',
-                'title'     => 'Falha na autenticação',
             ]
         ], $e->getCode());
     }
@@ -62,13 +61,12 @@ class JWTExceptionHandler
      */
     protected function tokenInvalid(TokenInvalidException $e)
     {
-        return response([
+        return response()->json([
             'code'      => $e->getCode(),
             'status'    => 'error',
-            'message'   => 'As credenciais passadas são inválidas',
+            'message'   => __('errors.jwt.invalid_credentials'),
             'data' => [
                 'id'        => 'InvalidCredentials',
-                'title'     => 'Credenciais Inválidas',
             ]
         ], $e->getCode() );
     }
@@ -79,13 +77,12 @@ class JWTExceptionHandler
      */
     protected function tokenBackListed(TokenBlacklistedException $e)
     {
-        return response([
+        return response()->json([
             'code'      => $e->getCode(),
             'status'    => 'error',
-            'message'   => 'As credenciais passadas se encontram em nossa lista de bloqueio',
+            'message'   => __('errors.jwt.blacklist_credentials'),
             'data' => [
-                'id'        => 'BlacklistCredentials',
-                'title'     => 'Credenciais Bloqueadas',
+                'id'        => 'BlacklistCredentials'
             ]
         ], $e->getCode() );
     }
@@ -96,13 +93,12 @@ class JWTExceptionHandler
      */
     protected function tokenExpired(TokenExpiredException $e)
     {
-        return response([
+        return response()->json([
             'code'      => $e->getCode(),
             'status'    => 'error',
-            'message'   => 'As credenciais passadas não são mais válidas',
+            'message'   => __('errors.jwt.expired_credentials'),
             'data' => [
                 'id'        => 'ExpiredCredentials',
-                'title'     => 'Credenciais estão expiradas',
             ]
         ], $e->getCode() );
     }
@@ -113,13 +109,12 @@ class JWTExceptionHandler
      */
     protected function invalidClaim(InvalidClaimException $e)
     {
-        return response([
+        return response()->json([
             'code'      => $e->getCode(),
             'status'    => 'error',
-            'message'   => 'The claim is invalid in some way',
+            'message'   => __('errors.jwt.invalid_claim'),
             'data' => [
                 'id'        => 'InvalidClaim',
-                'title'     => 'Invalid Claim',
             ]
         ], $e->getCode() );
     }
@@ -130,13 +125,12 @@ class JWTExceptionHandler
      */
     protected function payload(PayloadException $e)
     {
-        return response([
+        return response()->json([
             'code'      => $e->getCode(),
             'status'    => 'error',
-            'message'   => 'An error was generated in the authentication process',
+            'message'   => __('errors.jwt.payload'),
             'data' => [
-                'id'        => 'Payload',
-                'title'     => 'Payload'
+                'id'        => 'Payload'
             ]
         ], $e->getCode() );
     }
