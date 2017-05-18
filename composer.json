@@ -1,7 +1,7 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "fireguard/lumen-api",
+    "description": "Basic API Implementing with Lumen.",
+    "keywords": ["framework", "lumen", "fireguard", "api"],
     "license": "MIT",
     "type": "project",
     "require": {
